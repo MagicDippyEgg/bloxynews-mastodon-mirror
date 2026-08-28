@@ -12,7 +12,7 @@ import requests
 # Configuration
 # ============================================================
 
-BLUESKY_HANDLE = "@bloxy.news"
+BLUESKY_HANDLE = "bloxy.news"
 BLUESKY_API = "https://public.api.bsky.app"
 
 MASTODON_BASE = "https://mastodon.social"
