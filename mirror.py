@@ -1,4 +1,4 @@
-```python
+python
 import json
 import os
 import re
@@ -906,6 +906,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-```
-
-This version should eliminate the `IndentationError` and handle the deleted previous post by mirroring **only the current newest Bluesky post**.
