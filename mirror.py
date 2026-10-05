@@ -166,9 +166,6 @@ def get_posts_since(last_seen_uri):
 
     Returned posts are sorted oldest -> newest so replies can
     be posted after their parents.
-
-    If the previous mirrored post has been deleted from Bluesky,
-    only the current newest post is returned for recovery.
     """
 
     found = []
@@ -205,34 +202,16 @@ def get_posts_since(last_seen_uri):
             f"Fetched Bluesky page {page_number + 1}"
         )
 
-    # The previous mirrored post no longer exists in the
-    # Bluesky feed. This most likely means it was deleted.
-    #
-    # Do not replay all of the posts we just fetched because
-    # that could duplicate a large amount of the mirror.
     print()
     print(
-        "WARNING: Could not find the previous mirrored Bluesky "
+        "ERROR: Could not find the previous mirrored Bluesky "
         "post in the author feed."
     )
     print(
-        "Assuming the previous post was deleted."
+        "Refusing to continue because doing so could duplicate "
+        "posts."
     )
-
-    newest = get_newest_bluesky_post()
-
-    if newest is None:
-        print(
-            "ERROR: No Bluesky posts found."
-        )
-        sys.exit(1)
-
-    print(
-        f"Using newest Bluesky post for recovery: "
-        f"{newest['uri']}"
-    )
-
-    return [newest]
+    sys.exit(1)
 
 
 # ============================================================
@@ -511,7 +490,7 @@ def upload_image(image, max_size):
     alt_text = image.get("alt", "")
 
     print(
-        "    Downloading image..."
+        f"    Downloading image..."
     )
 
     response = session.get(
